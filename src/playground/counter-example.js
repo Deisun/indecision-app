@@ -1,5 +1,11 @@
 import React from "react";
 
+function CounterExample() {
+    return (
+        <Counter/>
+    )
+
+}
 class Counter extends React.Component {
     constructor(props) {
         super(props);
@@ -49,11 +55,5 @@ class Counter extends React.Component {
     }
 }
 
-function CounterExample() {
-    return (
-        <Counter/>
-    )
-
-}
 
 export default CounterExample;
