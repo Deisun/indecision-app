@@ -6,7 +6,7 @@ import Visibility from "./playground/build-it-visible";
 
 ReactDOM.render(
   <React.StrictMode>
-    <Visibility />
+    <App />
   </React.StrictMode>,
   document.getElementById('root')
 );
