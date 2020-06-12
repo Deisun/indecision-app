@@ -2,15 +2,17 @@ import React from 'react';
 
 function App() {
     return (
-        <IndecisionApp />
+        <IndecisionApp/>
     );
 }
 
 class IndecisionApp extends React.Component {
     constructor(props) {
         super(props);
+        // must bind these functions to the this context.
         this.handleDeleteOptions = this.handleDeleteOptions.bind(this);
         this.handlePick = this.handlePick.bind(this);
+        this.handleAddOption = this.handleAddOption.bind(this);
         this.state = {
             options: []
         }
@@ -22,26 +24,46 @@ class IndecisionApp extends React.Component {
             }
         })
     }
-
     handlePick() {
         const randomNum = Math.floor(Math.random() * this.state.options.length);
         const option = this.state.options[randomNum];
         alert(option);
     }
+    handleAddOption(option) {
+        if (!option) {
+            return "Enter valid value to add item";
+            // check to see if option already exists
+        } else if (this.state.options.indexOf(option) > -1) {
+            return 'This option already exists';
+        }
 
+        this.setState((prevState) => {
+            return {
+                // mdn concat:  adds the option to end of array
+                options: prevState.options.concat([option])
+            }
+        })
+    }
     render() {
         const title = "Indecision App"
         const subtitle = "Put your life in the hands of a computer"
         return (
             <div>
-                <Header title={title} subtitle={subtitle}/>
+                <Header
+                    title={title}
+                    subtitle={subtitle}
+                />
                 <Action
                     handlePick={this.handlePick}
-                    hasOptions={this.state.options.length > 0}/>
+                    hasOptions={this.state.options.length > 0}
+                />
                 <Options
                     options={this.state.options}
-                    handleDeleteOptions={this.handleDeleteOptions}/>
-                <AddOption/>
+                    handleDeleteOptions={this.handleDeleteOptions}
+                />
+                <AddOption
+                    handleAddOption={this.handleAddOption}
+                />
             </div>
         );
     }
@@ -94,20 +116,30 @@ class Option extends React.Component {
 }
 
 class AddOption extends React.Component {
+    constructor(props) {
+        super(props);
+        this.handleAddOption = this.handleAddOption.bind(this);
+        this.state = {
+            error: undefined
+        }
+    }
     handleAddOption(e) {
         // remove whole page refresh
         e.preventDefault();
 
+        // get text from the form and trim the extra spaces
         const option = e.target.elements.option.value.trim();
 
-        if (option) {
-            alert(option);
-        }
-    }
+        const error = this.props.handleAddOption(option);
 
+        this.setState(() => {
+            return {error}
+        });
+    }
     render() {
         return (
             <div>
+                {this.state.error && <p>{this.state.error}</p>}
                 <form onSubmit={this.handleAddOption}>
                     <input type="text" name="option"/>
                     <button>Add Option</button>
