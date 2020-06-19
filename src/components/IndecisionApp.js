@@ -1,4 +1,8 @@
 import React from 'react';
+import AddOption from "./AddOption";
+import Header from "./Header";
+import Action from "./Action";
+import Options from "./Options";
 
 class IndecisionApp extends React.Component {
     constructor(props) {
@@ -111,110 +115,8 @@ class IndecisionApp extends React.Component {
     }
 }
 
-// stateless functional React component (does not use THIS)
-const Header = (props) => {
-    return (
-        <div>
-            <h1>{props.title}</h1>
-            <h2>{props.subtitle}</h2>
-        </div>
-    )
-}
 
-Header.defaultProps = {
-    title: 'some default'
-};
 
-// stateless functional React component (does not use THIS)
-const Action = (props) => {
-    return (
-        <div>
-            <button onClick={props.handlePick} disabled={!props.hasOptions}>
-                What should I do?
-            </button>
-        </div>
-    );
-}
 
-// stateless functional React component (does not use THIS)
-const Options = (props) => {
-
-    return (
-        <div>
-            <button onClick={props.handleDeleteOptions}>Remove All</button>
-            {props.options.length === 0 && <p>Please add an option to get started!</p>}
-            {
-                props.options.map((option) => (
-                    <Option key={option}
-                            optionText={option}
-                            handleDeleteOption={props.handleDeleteOption}
-                    />)
-                )
-            }
-        </div>
-    );
-}
-
-// stateless functional React component (does not use THIS)
-const Option = (props) => {
-    return (
-        <div>
-            {props.optionText}
-            <button
-                onClick={(e) => {
-                    props.handleDeleteOption(props.optionText);
-                }}
-            >
-                remove
-            </button>
-        </div>
-    )
-}
-
-class AddOption extends React.Component {
-    constructor(props) {
-        super(props);
-        this.handleAddOption = this.handleAddOption.bind(this);
-        this.state = {
-            error: undefined
-        }
-    }
-
-    handleAddOption(e) {
-        // remove whole page refresh
-        e.preventDefault();
-
-        // get text from the form and trim the extra spaces
-        const option = e.target.elements.option.value.trim();
-
-        const error = this.props.handleAddOption(option);
-
-        /*
-                this.setState(() => {
-                    return {error}
-                });
-        */
-
-        // alternative syntax to implicitly return an object (does same thing as above)
-        this.setState(() => ({error}));
-
-        if (!error) {
-            // if no error when submitting, clear the box
-            e.target.elements.option.value = '';
-        }
-    }
-
-    render() {
-        return (
-            <div>
-                {this.state.error && <p>{this.state.error}</p>}
-                <form onSubmit={this.handleAddOption}>
-                    <input type="text" name="option"/>
-                    <button>Add Option</button>
-                </form>
-            </div>
-        );
-    }
-}
 
 export default IndecisionApp;
