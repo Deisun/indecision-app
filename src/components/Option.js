@@ -1,19 +1,17 @@
 // stateless functional React component (does not use THIS)
 import React from "react";
 
-const Option = (props) => {
-    return (
-        <div>
-            {props.optionText}
-            <button
-                onClick={(e) => {
-                    props.handleDeleteOption(props.optionText);
-                }}
-            >
-                remove
-            </button>
-        </div>
-    )
-}
+const Option = (props) => (
+    <div>
+        {props.optionText}
+        <button
+            onClick={(e) => {
+                props.handleDeleteOption(props.optionText);
+            }}
+        >
+            remove
+        </button>
+    </div>
+)
 
 export default Option;
