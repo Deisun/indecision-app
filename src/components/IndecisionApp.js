@@ -8,6 +8,7 @@ class IndecisionApp extends React.Component {
     state = {
         options: []
     }
+
     handleDeleteOptions = () => {
         /*
                 this.setState(() => {
@@ -20,6 +21,7 @@ class IndecisionApp extends React.Component {
         // alternative syntax to implicitly return an object (does same thing as above)
         this.setState(() => ({options: []}));
     }
+
     handleDeleteOption = (optionToRemove) => {
         this.setState((prevState) => ({
             // mdn filter
@@ -28,6 +30,7 @@ class IndecisionApp extends React.Component {
             })
         }))
     }
+
     handlePick = () => {
         const randomNum = Math.floor(Math.random() * this.state.options.length);
         const option = this.state.options[randomNum];
@@ -78,6 +81,7 @@ class IndecisionApp extends React.Component {
             localStorage.setItem('options', json);
         }
     }
+
     componentWillUnmount() {
     }
 
@@ -106,9 +110,5 @@ class IndecisionApp extends React.Component {
         );
     }
 }
-
-
-
-
 
 export default IndecisionApp;
