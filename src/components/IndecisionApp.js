@@ -5,17 +5,57 @@ import Action from "./Action";
 import Options from "./Options";
 
 class IndecisionApp extends React.Component {
-    constructor(props) {
-        super(props);
-        // must bind these functions to the this context.
-        this.handleDeleteOptions = this.handleDeleteOptions.bind(this);
-        this.handlePick = this.handlePick.bind(this);
-        this.handleAddOption = this.handleAddOption.bind(this);
-        this.handleDeleteOption = this.handleDeleteOption.bind(this);
-        this.state = {
-            options: []
-        }
+    state = {
+        options: []
     }
+    handleDeleteOptions = () => {
+        /*
+                this.setState(() => {
+                    return {
+                        options: []
+                    }
+                })
+        */
+
+        // alternative syntax to implicitly return an object (does same thing as above)
+        this.setState(() => ({options: []}));
+    }
+    handleDeleteOption = (optionToRemove) => {
+        this.setState((prevState) => ({
+            // mdn filter
+            options: prevState.options.filter((option) => {
+                return optionToRemove !== option;
+            })
+        }))
+    }
+    handlePick = () => {
+        const randomNum = Math.floor(Math.random() * this.state.options.length);
+        const option = this.state.options[randomNum];
+        alert(option);
+    }
+
+    handleAddOption = (option) => {
+        if (!option) {
+            return "Enter valid value to add item";
+            // check to see if option already exists
+        } else if (this.state.options.indexOf(option) > -1) {
+            return 'This option already exists';
+        }
+
+        /*
+                this.setState((prevState) => {
+                    return {
+                        // mdn concat:  adds the option to end of array
+                        options: prevState.options.concat([option])
+                    }
+                })
+        */
+
+        // alternative syntax to implicitly return an object (does same thing as above)
+        this.setState((prevState) => ({options: prevState.options.concat([option])}));
+
+    }
+
     componentDidMount() {
         // check to see if json is valid
         try {
@@ -39,54 +79,6 @@ class IndecisionApp extends React.Component {
         }
     }
     componentWillUnmount() {
-    }
-
-    handleDeleteOptions() {
-        /*
-                this.setState(() => {
-                    return {
-                        options: []
-                    }
-                })
-        */
-
-        // alternative syntax to implicitly return an object (does same thing as above)
-        this.setState(() => ({options: []}));
-    }
-    handleDeleteOption(optionToRemove) {
-        this.setState((prevState) => ({
-            // mdn filter
-            options: prevState.options.filter((option) => {
-                return optionToRemove !== option;
-            })
-        }))
-    }
-    handlePick() {
-        const randomNum = Math.floor(Math.random() * this.state.options.length);
-        const option = this.state.options[randomNum];
-        alert(option);
-    }
-
-    handleAddOption(option) {
-        if (!option) {
-            return "Enter valid value to add item";
-            // check to see if option already exists
-        } else if (this.state.options.indexOf(option) > -1) {
-            return 'This option already exists';
-        }
-
-        /*
-                this.setState((prevState) => {
-                    return {
-                        // mdn concat:  adds the option to end of array
-                        options: prevState.options.concat([option])
-                    }
-                })
-        */
-
-        // alternative syntax to implicitly return an object (does same thing as above)
-        this.setState((prevState) => ({options: prevState.options.concat([option])}));
-
     }
 
     render() {
