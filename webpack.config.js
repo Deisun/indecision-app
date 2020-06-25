@@ -7,14 +7,20 @@ module.exports = {
         filename: 'bundle.js'
     },
     module: {
-        rules: [{
-            loader: 'babel-loader',
-            options: {
-                presets:['@babel/preset-env', '@babel/preset-react',{
-                    'plugins': ['@babel/plugin-proposal-class-properties']}]
+        rules: [
+            {
+                loader: 'babel-loader',
+                options: {
+                    presets: ['@babel/preset-env', '@babel/preset-react', {
+                    'plugins': ['@babel/plugin-proposal-class-properties']
+                    }]
+                },
+                test: /\.js$/,
+                exclude: /node_modules/
             },
-            test: /\.js$/,
-            exclude: /node_modules/
-        }]
+            {
+            test: /\.scss$/,
+            use: ['style-loader', 'css-loader']
+            }]
     }
 };
